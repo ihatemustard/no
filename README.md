@@ -110,6 +110,6 @@ sudo rm /usr/local/bin/no
 - [X] TUI Installer
 - [X] Include help instead of using `man`
 - [ ] Option to scan for new Versions
-- [ ] Update Feature in Installer
+- [X] Install through Wi-Fi and not locally in Installer
 - [X] Add Version Flag
 - [X] Add Count Flag
