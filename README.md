@@ -64,7 +64,7 @@ To remove `no`, run the same script with the `remove` option (also as root):
 
 ---
 
-## Install & Uninstall (Linux & Others)
+## Install & Uninstall (Linux & Unix-like systems)
 
 *Note: This method of installation is untested.*
 
