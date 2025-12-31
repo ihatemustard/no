@@ -1,3 +1,6 @@
+## Known Bugs in v4.1-fix
+- `--command` or `-cmd` flag won't work
+
 # no
 
 `no` is the opposite of `yes`.
