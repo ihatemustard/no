@@ -51,7 +51,9 @@ To remove no, run the same script with the remove option **(also as root)**:
 `sudo mv no /usr/local/bin/no.sh`
 
 **Step 4** Test it:
+
 `no | head`
+
 `no i like cheese | head`
 
 To remove no, run this command:
