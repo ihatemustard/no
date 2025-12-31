@@ -42,3 +42,7 @@ Installs to `/usr/local/bin/no`.
 
 To uninstall:
 `sudo rm /usr/local/bin/no`
+
+### Dependencies
+- sh (POSIX-compliant shell, usually /bin/sh)
+- yes (standard Unix command, included in coreutils or base system)
