@@ -93,7 +93,7 @@ To remove `no`, run the same script **(also as root)**.
 
 ---
 
-## Manual Installation & Removal (for (almost) all Unix-like Systems + Linux)
+## Manual Installation & Removal (Linux + others)
 
 **Step 1**: Download the [`no`](https://github.com/ihatemustard/no/blob/main/no.sh) script
 
