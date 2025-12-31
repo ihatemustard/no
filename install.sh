@@ -19,18 +19,17 @@ BOLD=$(printf '\033[1m')
 NC=$(printf '\033[0m')
 
 check_version() {
-    # Fetch second line of remote script
-    REMOTE_VERSION=$(fetch -o - "$INSTALLER_URL" 2>/dev/null | sed -n '2p' | tr -d '\r')
+    # This grabs the first 10 lines and looks for the line starting with CURRENT_VERSION=
+    REMOTE_VERSION=$(fetch -o - "$INSTALLER_URL" 2>/dev/null | grep "^CURRENT_VERSION=" | head -n 1 | cut -d'"' -f2)
 
-    # If remote version doesn't match local version
-    if [ "$REMOTE_VERSION" != "$CURRENT_VERSION" ] && [ -n "$REMOTE_VERSION" ]; then
+    if [ -n "$REMOTE_VERSION" ] && [ "$REMOTE_VERSION" != "$CURRENT_VERSION" ]; then
         clear
         printf "${RED}╔════════════════════════════════════════════════════════════╗${NC}\n"
         printf "${RED}║                NEW VERSION AVAILABLE                       ║${NC}\n"
         printf "${RED}╚════════════════════════════════════════════════════════════╝${NC}\n"
         printf " Local version:  ${YELLOW}$CURRENT_VERSION${NC}\n"
         printf " Remote version: ${GREEN}$REMOTE_VERSION${NC}\n\n"
-
+        
         printf " ${BOLD}1)${NC} Open New Version (Browser)\n"
         printf " ${BOLD}2)${NC} Exit\n\n"
         printf "${CYAN}Please select an option [1-2]:${NC} "
@@ -38,19 +37,15 @@ check_version() {
 
         case "$ver_choice" in
             1)
-                # Attempts to open URL in browser (FreeBSD/Linux/macOS compatible)
-                if command -v open >/dev/null 2>&1; then
-                    open "$GITHUB_PAGE"
-                elif command -v xdg-open >/dev/null 2>&1; then
-                    xdg-open "$GITHUB_PAGE"
+                if command -v open >/dev/null 2>&1; then open "$GITHUB_PAGE"
+                elif command -v xdg-open >/dev/null 2>&1; then xdg-open "$GITHUB_PAGE"
                 else
-                    printf "\n${YELLOW}Could not detect a browser. Please visit:${NC}\n$GITHUB_PAGE\n"
+                    printf "\n${YELLOW}Please visit:${NC}\n$GITHUB_PAGE\n"
                     sleep 5
                 fi
                 exit 0
                 ;;
             *)
-                printf "${YELLOW}Exiting.${NC}\n"
                 exit 0
                 ;;
         esac
