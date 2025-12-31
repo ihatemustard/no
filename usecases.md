@@ -6,16 +6,20 @@
 
 ## 1. Default Negative Input Replacement
 
-The most basic use: replacing `yes` with a negative response.
-
 Example:
-no
 
-Output:
+```sh
+no
+```
+
+Example output:
+
+```text
 n
 n
 n
 ...
+```
 
 Why:
 Some scripts or programs expect repeated input. `no` provides a fast, explicit way to send negative responses.
@@ -24,7 +28,20 @@ Some scripts or programs expect repeated input. `no` provides a fast, explicit w
 
 ## 2. Custom Repeated Text
 
+Example:
+
+```sh
 no "I disagree"
+```
+
+Example output:
+
+```text
+I disagree
+I disagree
+I disagree
+...
+```
 
 Use case:
 Testing programs that read from stdin, stress-testing input handling, or scripting repetitive output.
@@ -33,7 +50,19 @@ Testing programs that read from stdin, stress-testing input handling, or scripti
 
 ## 3. Limiting Output with --times / -t
 
+Example:
+
+```sh
 no --times 3
+```
+
+Example output:
+
+```text
+n
+n
+n
+```
 
 Use case:
 Prevent infinite output when piping into commands like head, sed, or logs.
@@ -42,7 +71,25 @@ Prevent infinite output when piping into commands like head, sed, or logs.
 
 ## 4. Timed Input with --interval / -i
 
+Example:
+
+```sh
 no --interval 0.5 --times 5
+```
+
+Example output:
+
+```text
+n
+(wait 0.5s)
+n
+(wait 0.5s)
+n
+(wait 0.5s)
+n
+(wait 0.5s)
+n
+```
 
 Use case:
 Simulating human-like delays for scripts that expect pauses between inputs.
@@ -51,7 +98,19 @@ Simulating human-like delays for scripts that expect pauses between inputs.
 
 ## 5. Logging Output with --output / -o
 
-no example -o output.txt --times 5
+Example:
+
+```sh
+no example -o output.txt --times 3
+```
+
+Contents of output.txt:
+
+```text
+example
+example
+example
+```
 
 Use case:
 Writing automated responses to files without shell redirection.
@@ -60,12 +119,19 @@ Writing automated responses to files without shell redirection.
 
 ## 6. Counting Output with --count / -c
 
-no --count --times 3
+Example:
 
-Output:
+```sh
+no --count --times 3
+```
+
+Example output:
+
+```text
 1: n
 2: n
 3: n
+```
 
 Use case:
 Debugging, logging, or tracking how many responses were sent.
@@ -74,7 +140,20 @@ Debugging, logging, or tracking how many responses were sent.
 
 ## 7. Randomized Responses with --random / -r
 
+Example:
+
+```sh
 no --random "no,nah,nop,never" --times 4
+```
+
+Example output:
+
+```text
+nah
+no
+never
+nop
+```
 
 Use case:
 Testing scripts that should handle varying input instead of a fixed value.
@@ -83,40 +162,59 @@ Testing scripts that should handle varying input instead of a fixed value.
 
 ## 8. Executing Commands Repeatedly (--command / -cmd)
 
+Example:
+
+```sh
 no --command "date" --times 3
+```
+
+Example output:
+
+```text
+Mon Jan  1 12:00:01 UTC 2025
+Mon Jan  1 12:00:02 UTC 2025
+Mon Jan  1 12:00:03 UTC 2025
+```
 
 Why this exists:
 Sometimes you want dynamic output, not static text.
 
-Practical reasons:
-- Poll system state (uptime, who, df -h)
-- Generate changing data for pipelines
-- Replace simple watch-style loops
-- Feed live command output into another program
-
 Example with delay:
+
+```sh
 no --command "uptime" --interval 1
+```
+
+Example output:
+
+```text
+12:00  up 10 days,  2 users, load averages: 0.12 0.09 0.05
+12:00  up 10 days,  2 users, load averages: 0.13 0.10 0.06
+12:00  up 10 days,  2 users, load averages: 0.11 0.08 0.05
+```
 
 ---
 
 ## 9. Combining Features
 
+Example:
+
+```sh
 no --command "echo no" --count --interval 0.2 --times 5
+```
+
+Example output:
+
+```text
+1: no
+2: no
+3: no
+4: no
+5: no
+```
 
 Use case:
 Demonstrates that no is composable and predictable.
-
----
-
-## 10. Automation & Testing Tool
-
-Because no:
-- Is POSIX sh
-- Has no dependencies
-- Works in pipes
-- Can run infinitely or finitely
-
-It is ideal for CI testing, script mocking, input fuzzing, and terminal demos.
 
 ---
 
