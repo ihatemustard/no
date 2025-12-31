@@ -112,7 +112,7 @@ sudo mv no.sh /usr/local/bin/no
 **Step 4**: Test it
 
 ```sh
-no | head
+no -h
 ```
 
 To remove `no`, run:
