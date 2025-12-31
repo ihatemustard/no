@@ -141,3 +141,5 @@ sudo rm /usr/local/bin/no
 - [X] Install through Wi-Fi and not locally in Installer
 - [X] Add Version Flag
 - [X] Add Count Flag
+
+[![FreeBSD Powered Button](https://www.freebsd.org/gifs/power-button.gif)](https://www.freebsd.org)
