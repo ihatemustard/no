@@ -212,15 +212,3 @@ Example output:
 4: no
 5: no
 ```
-
-Use case:
-Demonstrates that no is composable and predictable.
-
----
-
-## Philosophy
-
-no is intentionally simple.
-
-If yes is optimism,
-no is realism.
