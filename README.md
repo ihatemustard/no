@@ -58,7 +58,7 @@ The table below compares the `no` script with other common Unix utilities that g
 | Random selection from list       | ✅          | ❌        | ❌            | ❌        | ✅         |
 | Execute command repeatedly       | ✅          | ❌        | ❌            | ❌        | ❌         |
 | Interval / delay between outputs | ✅          | ❌        | ❌            | ❌        | ❌         |
-| Columns / custom separator       | ✅          | ❌        | ✅ (limited)  | ❌        | ❌         |
+| Columns / custom separator       | ✅          | ❌        | ✅  | ❌        | ❌         |
 | Supports negative step           | ✅          | ❌        | ✅            | ✅        | ❌         |
 | Alphabetical ranges (a..z)      | ✅          | ❌        | ✅            | ✅        | ❌         |
 | Can repeat random items N times  | ✅          | ❌        | ❌            | ❌        | ✅         |
