@@ -21,15 +21,15 @@ no i like cheese
 # ...
 ```
 ### Install & Uninstall (FreeBSD)
-Step 1: Download the install script using fetch
+**Step 1**: Download the install script using fetch
 ```sh
 fetch -o install.sh https://raw.githubusercontent.com/ihatemustard/no/refs/heads/main/install.sh
 ```
-Step 2: Make the script executable
+**Step 2**: Make the script executable
 ```sh
 chmod +x install.sh
 ```
-Step 3: Run the script as root (using `doas` or `sudo`)
+**Step 3**: Run the script as root (using `doas` or `sudo`)
 ```sh
 ./install.sh
 ```
@@ -42,18 +42,18 @@ To remove no, run the same script with the remove option **(also as root)**:
 
 ### Install & Uninstall (Linux & Others)
 *Note: This method of installation is untested.*
-1. [Download the `no` script](https://github.com/ihatemustard/no/blob/main/no.sh)
-2. Make it executable:
+**Step 1**: [Download the `no` script](https://github.com/ihatemustard/no/blob/main/no.sh)
+**Step 2**: Make it executable:
 `chmod +x no.sh`
 
-3. Move it to a directory in your PATH (requires root):
+**Step 3:** Move it to a directory in your PATH (requires root):
 `sudo mv no /usr/local/bin/no.sh`
 
-4. Test it:
+**Step 4** Test it:
 `no | head`
 `no i like cheese | head`
 
-To uninstall:
+To remove no, run this command:
 `sudo rm /usr/local/bin/no.sh`
 
 ### Dependencies
