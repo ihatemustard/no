@@ -15,6 +15,9 @@ It behaves similarly to the Unix `yes` command, but:
 * Supports `--step` to set the increment value (supports decimals like `0.5`)
 * Supports `--pad` to zero-pad numeric output (e.g., `--pad 3` becomes `001`)
 * Supports `--precision` to set fixed decimal places for numeric output
+* Supports `--format` or `-f` for custom printf-style output strings
+* Supports `-cols` to arrange output into multiple columns
+* Supports `--separator` or `-s` for custom delimiters between items
 * Supports `--version` or `-v` and `--help` or `-h`
 
 For practical examples and ways to use `no`, see the [Use Cases](usecases.md) page.
