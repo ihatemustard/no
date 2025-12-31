@@ -1,5 +1,7 @@
 ## Known Bugs in v4.1-fix
 - `--command` or `-cmd` flag won't work
+- `--separator` or `-s`flag won't work
+Will probably fix those **January 1st 2026**.
 
 # no
 
