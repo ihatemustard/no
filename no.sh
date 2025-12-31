@@ -2,7 +2,7 @@
 
 export LC_ALL=C
 
-VERSION="2.4-fix"
+VERSION="1.4-fix"
 
 OLD_STTY=$(stty -g)
 
