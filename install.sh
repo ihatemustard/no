@@ -1,120 +1,135 @@
 #!/bin/sh
-# Author: ihatemustard
-# Installer for the "no" command
 
-INSTALL_PATH="/usr/local/bin"
-MAN_PATH="/usr/local/share/man/man1"
+INSTALL_DIR="/usr/local/bin"
+TARGET="${INSTALL_DIR}/no"
 
 if [ "$(id -u)" -ne 0 ]; then
-    echo "You must run this as root!"
+    echo "Error: this script must be run as root (use su or doas)"
     exit 1
 fi
 
-case "$1" in
-    remove)
-        echo "Removing 'no'..."
-        rm -f "$INSTALL_PATH/no"
-        rm -f "$MAN_PATH/no.1"
-        echo "Removed."
-        exit 0
-        ;;
-esac
+ACTION="$1"
 
-# Create the 'no' command
-echo "Creating 'no' command..."
-cat > "$INSTALL_PATH/no" << 'EOF'
+if [ "$ACTION" = "remove" ]; then
+    if [ -f "$TARGET" ]; then
+        rm -f "$TARGET"
+        echo "'no' removed from $TARGET"
+    else
+        echo "'no' is not installed"
+    fi
+    exit 0
+fi
+
+echo "Installing 'no' to $TARGET..."
+mkdir -p "$INSTALL_DIR"
+
+cat > "$TARGET" << 'EOF'
 #!/bin/sh
-# Author: ihatemustard
-# Flexible "no" command
 
-times=-1
-word="n"
+VERSION="1.0"
 
-# Parse arguments
-while [ $# -gt 0 ]; do
-    case "$1" in
-        --times)
-            shift
-            times="$1"
-            ;;
-        *)
-            word="$1"
-            ;;
-    esac
-    shift
-done
+TEXT="n"
+INTERVAL=0
+TIMES=0
+USE_RANDOM=0
+RANDOM_ITEMS=""
+USE_COUNT=0
+OUTPUT=""
 
-print_word() {
-    echo "$word"
+usage() {
+    echo "Usage: no [text] [options]"
+    echo
+    echo "Options:"
+    echo "  -i, --interval <seconds>   Add a delay between outputs"
+    echo "  -v, --version              Show version info"
+    echo "  -h, --help                 Show this help"
+    echo "  -r, --random <list>        Repeat random strings from comma-separated list"
+    echo "  -c, --count                Prepend counter to each output"
+    echo "  -o, --output <file>        Write output to a file instead of stdout"
+    echo "  -t, --times <n>            Number of times to repeat (0 = infinite)"
+    echo
+    echo "Examples:"
+    echo "  no"
+    echo "  no example -o file.txt"
+    echo "  no --interval 0.5 --times 5"
+    echo "  no --random \"no,nah,nop\" --times 4"
+    echo "  no --count --times 3"
+    echo "  no --output log.txt --times 5"
+    exit 0
 }
 
-if [ "$times" -eq -1 ]; then
-    while true; do
-        print_word
-    done
-else
-    i=0
-    while [ $i -lt "$times" ]; do
-        print_word
-        i=$((i + 1))
-    done
-fi
+pick_random() {
+    LIST="$1"
+    COUNT=$(echo "$LIST" | awk -F',' '{print NF}')
+    RAND_BYTE=$(od -An -N2 -tu2 /dev/urandom | tr -d ' ')
+    INDEX=$(( (RAND_BYTE % COUNT) + 1 ))
+    echo "$LIST" | awk -v i="$INDEX" -F',' '{print $i}'
+}
+
+while [ "$#" -gt 0 ]; do
+    case "$1" in
+        -i|--interval)
+            INTERVAL="$2"
+            shift 2
+            ;;
+        -v|--version)
+            echo "no v$VERSION"
+            exit 0
+            ;;
+        -h|--help)
+            usage
+            ;;
+        -r|--random)
+            USE_RANDOM=1
+            RANDOM_ITEMS="$2"
+            shift 2
+            ;;
+        -c|--count)
+            USE_COUNT=1
+            shift
+            ;;
+        -o|--output)
+            OUTPUT="$2"
+            shift 2
+            ;;
+        -t|--times)
+            TIMES="$2"
+            shift 2
+            ;;
+        *)
+            TEXT="$1"
+            shift
+            ;;
+    esac
+done
+
+i=0
+while [ "$TIMES" -eq 0 ] || [ "$i" -lt "$TIMES" ]; do
+    if [ "$USE_RANDOM" -eq 1 ] && [ -n "$RANDOM_ITEMS" ]; then
+        OUT=$(pick_random "$RANDOM_ITEMS")
+    else
+        OUT="$TEXT"
+    fi
+
+    if [ "$USE_COUNT" -eq 1 ]; then
+        PREFIX="$((i+1)): "
+    else
+        PREFIX=""
+    fi
+
+    if [ -n "$OUTPUT" ]; then
+        echo "${PREFIX}${OUT}" >> "$OUTPUT"
+    else
+        echo "${PREFIX}${OUT}"
+    fi
+
+    i=$((i+1))
+    awk_exit=$(echo "$INTERVAL > 0" | awk '{exit !$1}')
+    if [ "$?" -eq 0 ]; then
+        sleep "$INTERVAL"
+    fi
+done
 EOF
 
-chmod +x "$INSTALL_PATH/no"
-
-# Create the man page
-echo "Creating man page..."
-mkdir -p "$MAN_PATH"
-cat > "$MAN_PATH/no.1" << 'EOF'
-.\" Manpage for no
-.TH NO 1 "2025-12-31" "1.0" "no command"
-.SH NAME
-no \- print "n" or a custom word repeatedly
-.SH SYNOPSIS
-.B no
-[\fIWORD\fR] [\-\-times NUMBER]
-.SH DESCRIPTION
-The
-.B no
-command prints the letter "n" by default.
-
-If a
-\fIWORD\fR
-is provided, it prints that word repeatedly.
-
-Use
-.B --times NUMBER
-to print a specific number of times. Without it, the command prints infinitely.
-
-.SH EXAMPLES
-Print "n" infinitely:
-
-.nf
-$ no
-.fi
-
-Print "hi" infinitely:
-
-.nf
-$ no hi
-.fi
-
-Print "hi" twice:
-
-.nf
-$ no hi --times 2
-.fi
-
-Print "n" 5 times:
-
-.nf
-$ no --times 5
-.fi
-
-.SH AUTHOR
-ihatemustard
-EOF
-
-echo "Installation complete!"
-echo "Use 'no WORD --times NUMBER' or 'no WORD' to print infinitely."
+chmod 755 "$TARGET"
+echo "Installed successfully! Test with: no -t 3"
