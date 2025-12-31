@@ -1,8 +1,9 @@
 #!/bin/sh
 # Author: ihatemustard
-# Simple "no" command with optional --times
+# Flexible "no" command
 
 times=-1
+word="n"
 
 # Parse arguments
 while [ $# -gt 0 ]; do
@@ -12,25 +13,24 @@ while [ $# -gt 0 ]; do
             times="$1"
             ;;
         *)
-            echo "Usage: $0 [--times number]"
-            exit 1
+            word="$1"
             ;;
     esac
     shift
 done
 
-print_no() {
-    echo "n"
+print_word() {
+    echo "$word"
 }
 
 if [ "$times" -eq -1 ]; then
     while true; do
-        print_no
+        print_word
     done
 else
     i=0
     while [ $i -lt "$times" ]; do
-        print_no
+        print_word
         i=$((i + 1))
     done
 fi
