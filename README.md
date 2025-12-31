@@ -5,8 +5,12 @@
 It behaves similarly to the Unix `yes` command, but:
 
 * Defaults to printing `n`
-* Accepts custom arguments (words to repeat)
-* Supports `--times NUMBER` to limit repetitions (infinite by default)
+* Supports `--times` or `-t` to limit repetitions (infinite by default)
+* Supports `--interval` or `-i` to add delays between outputs
+* Supports `--count` or `-c` to prepend a counter
+* Supports `--output` or `-o` to write output to a file
+* Supports `--random` or `-r` to repeat random strings from a comma-separated list
+* Supports `--version` or `-v` and `--help` or `-h`
 
 For practical examples and ways to use `no`, see the [Use Cases](usecases.md) page.
 
@@ -25,17 +29,6 @@ $ no i hate mustard
 i hate mustard
 i hate mustard
 ...
-
-$ no i hate mustard --times 2
-i hate mustard
-i hate mustard
-
-$ no --times 5
-n
-n
-n
-n
-n
 ```
 
 ---
@@ -61,7 +54,6 @@ chmod +x install.sh
 ```
 
 * Installs the command to `/usr/local/bin/no`
-* Creates a man page at `/usr/local/share/man/man1/no.1`
 * Works immediately without additional configuration
 
 To remove `no`, run the same script with the `remove` option (also as root):
