@@ -47,7 +47,6 @@ Core Options:
   -o, --output <file>  Write to file
   -r, --random <list>  Pick random item from comma-sep list
   -v, --version        Show version
-  --dry-run            Show configuration and exit
 
 Kill Switch:
   CTRL + E             Instantly kills the process and returns to shell.
@@ -74,7 +73,7 @@ EOF
 }
 
 verify_script() {
-    printf -- "Starting extended verification suite...\n"
+    printf -- "Starting verification suite...\n"
     GREEN='\033[0;32m'; RED='\033[0;31m'; NC='\033[0m'
     case "$0" in /*|./*) script_path="$0" ;; *) script_path="./$0" ;; esac
 
