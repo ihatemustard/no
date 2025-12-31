@@ -3,34 +3,31 @@
 INSTALL_DIR="/usr/local/bin"
 TARGET="${INSTALL_DIR}/no"
 
-clear
-echo "=== no manager ==="
-echo
-echo "1) Install no"
-echo "2) Remove no"
-echo "3) Cancel"
-echo
-printf "Select an option [1-3]: "
-read choice
+# Must run as root
+if [ "$(id -u)" -ne 0 ]; then
+    echo "Error: this script must be run as root (use su or doas)"
+    exit 1
+fi
 
-# Require root for install/remove
-need_root() {
-    if [ "$(id -u)" -ne 0 ]; then
-        echo "Error: must be run as root (use su or doas)"
-        exit 1
+# Determine action: install (default) or remove
+ACTION="$1"
+
+if [ "$ACTION" = "remove" ]; then
+    if [ -f "$TARGET" ]; then
+        rm -f "$TARGET"
+        echo "'no' removed from $TARGET"
+    else
+        echo "'no' is not installed"
     fi
-}
+    exit 0
+fi
 
-case "$choice" in
-    1)
-        need_root
-        echo "Installing 'no'..."
+# Install 'no'
+echo "Installing 'no' to $TARGET..."
+mkdir -p "$INSTALL_DIR"
 
-        mkdir -p "$INSTALL_DIR"
-
-        cat > "$TARGET" << 'EOF'
+cat > "$TARGET" << 'EOF'
 #!/bin/sh
-
 if [ "$#" -eq 0 ]; then
     exec yes n
 else
@@ -38,26 +35,5 @@ else
 fi
 EOF
 
-        chmod 0755 "$TARGET"
-
-        echo "Installed: $TARGET"
-        echo "Test with: no | head"
-        ;;
-    2)
-        need_root
-        if [ -f "$TARGET" ]; then
-            rm "$TARGET"
-            echo "Removed: $TARGET"
-        else
-            echo "'no' is not installed."
-        fi
-        ;;
-    3)
-        echo "Cancelled."
-        exit 0
-        ;;
-    *)
-        echo "Invalid option."
-        exit 1
-        ;;
-esac
+chmod 0755 "$TARGET"
+echo "Installed successfully! Test with: no | head"
