@@ -1,6 +1,6 @@
 #!/bin/sh
 # Author: ihatemustard
-# Self-contained installer for the "no" command and its man page
+# Installer for the updated "no" command
 
 INSTALL_PATH="/usr/local/bin"
 MAN_PATH="/usr/local/share/man/man1"
@@ -15,19 +15,21 @@ case "$1" in
         echo "Removing 'no'..."
         rm -f "$INSTALL_PATH/no"
         rm -f "$MAN_PATH/no.1"
+        mandb
         echo "Removed."
         exit 0
         ;;
 esac
 
 # Create the 'no' command
-echo "Installing 'no'..."
+echo "Creating 'no' command..."
 cat > "$INSTALL_PATH/no" << 'EOF'
 #!/bin/sh
 # Author: ihatemustard
-# Simple "no" command with optional --times
+# Flexible "no" command
 
 times=-1
+word="n"
 
 # Parse arguments
 while [ $# -gt 0 ]; do
@@ -37,25 +39,24 @@ while [ $# -gt 0 ]; do
             times="$1"
             ;;
         *)
-            echo "Usage: $0 [--times number]"
-            exit 1
+            word="$1"
             ;;
     esac
     shift
 done
 
-print_no() {
-    echo "n"
+print_word() {
+    echo "$word"
 }
 
 if [ "$times" -eq -1 ]; then
     while true; do
-        print_no
+        print_word
     done
 else
     i=0
     while [ $i -lt "$times" ]; do
-        print_no
+        print_word
         i=$((i + 1))
     done
 fi
@@ -70,35 +71,53 @@ cat > "$MAN_PATH/no.1" << 'EOF'
 .\" Manpage for no
 .TH NO 1 "2025-12-31" "1.0" "no command"
 .SH NAME
-no \- print "no" repeatedly
+no \- print "n" or a custom word repeatedly
 .SH SYNOPSIS
 .B no
-[\-\-times NUMBER]
+[\fIWORD\fR] [\-\-times NUMBER]
 .SH DESCRIPTION
 The
 .B no
-command prints "n".
+command prints the letter "n" by default.
 
-If
+If a
+\fIWORD\fR
+is provided, it prints that word repeatedly.
+
+Use
 .B --times NUMBER
-is given, it prints "no" NUMBER times. If not, it prints infinitely.
+to print a specific number of times. Without it, the command prints infinitely.
 
 .SH EXAMPLES
-Print "no" 5 times:
-
-.nf
-$ no --times 5
-.fi
-
-Print "no" infinitely:
+Print "n" infinitely:
 
 .nf
 $ no
+.fi
+
+Print "hi" infinitely:
+
+.nf
+$ no hi
+.fi
+
+Print "hi" twice:
+
+.nf
+$ no hi --times 2
+.fi
+
+Print "n" 5 times:
+
+.nf
+$ no --times 5
 .fi
 
 .SH AUTHOR
 ihatemustard
 EOF
 
+mandb
+
 echo "Installation complete!"
-echo "Use 'no --times NUMBER' or 'no' to print infinitely."
+echo "Use 'no WORD --times NUMBER' or 'no WORD' to print infinitely."
