@@ -6,12 +6,13 @@ Use `no` to automatically respond to prompts in scripts, installers, or command-
 
 ```sh
 # Simulate always saying no
-no | head -n 5
+no
 n
 n
 n
 n
 n
+...
 ```
 
 ```sh
