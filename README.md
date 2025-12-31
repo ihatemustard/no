@@ -92,8 +92,28 @@ chmod +x install.sh
 To remove `no`, run the same script **(also as root)**.
 
 ---
+## Install & Uninstall (Linux)
 
-## Install & Uninstall (Linux & Unix-like systems)
+**Step 1**: Download the install script using `curl`
+
+```sh
+curl -L -o install.sh https://raw.githubusercontent.com/ihatemustard/no/refs/heads/main/install_linux.sh```
+```
+**Step 2**: Make the script executabl
+```sh
+chmod +x install_linux.sh
+```
+
+**Step 3**: Run the script as root (using `sudo`)
+
+```sh
+sudo ./install.sh
+```
+
+To remove `no`, run the same script **(also as root)**.
+
+---
+## Manual Installation & Removal (for (almost) all Unix-like Systems)
 
 **Step 1**: Download the [`no`](https://github.com/ihatemustard/no/blob/main/no.sh) script
 
