@@ -20,7 +20,7 @@ no i like cheese
 # i like cheese
 # ...
 ```
-### Install (FreeBSD)
+### Install & Uninstall (FreeBSD)
 ```sh
 fetch -o - https://raw.githubusercontent.com/ihatemustard/no/main/install.sh | sh
 ```
