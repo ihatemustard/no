@@ -2,6 +2,8 @@
 
 `no` is a flexible automation and testing tool. While it looks simple, it is useful in many real-world and playful scenarios.
 
+**Note: This page of documentation is currently written for v1.1. Some features introduced in v1.2 (such as `--seq`, `--pad`, and `--precision`) may not be fully documented here yet. An update to the documentation is pending.**
+
 ---
 
 ## 1. Default Negative Input Replacement
