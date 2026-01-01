@@ -2,7 +2,7 @@
 
 export LC_ALL=C
 
-VERSION="1.4-fix"
+VERSION="1.4-fix2"
 
 OLD_STTY=$(stty -g)
 
@@ -36,6 +36,7 @@ SUFFIX_STR=""
 WIDTH=0
 CYCLE=0
 SKIP=0
+COMMAND_STR=""
 
 usage() {
     cat <<EOF
@@ -46,6 +47,7 @@ Core Options:
   -i, --interval <sec> Sleep between outputs
   -o, --output <file>  Write to file
   -r, --random <list>  Pick random item from comma-sep list
+  -cmd, --command <str> Run shell command and output result
   -v, --version        Show version
 
 Kill Switch:
@@ -61,7 +63,7 @@ Formatting:
   --width <n>           Right-align output to fixed width
 
 Sequences:
-  --seq <start:end>    Generate sequence (1:100, a:z, -5:5)
+  --seq <start:end>     Generate sequence (1:100, a:z, -5:5)
   --step <n>            Sequence increment size
   --cycle               Repeat sequence infinitely (requires -t)
   --skip <n>            Skip first N items of sequence
@@ -146,10 +148,19 @@ verify_script() {
     test_case "Format + Padding" "--seq 1:1 --pad 3 -f 'ID-%s'" "ID-001\n"
     test_case "Cols + Width" "--seq 1:2 -cols 2 --width 3" "  1\t  2\n"
     test_case "Random from 1 item" "-r 'only' -t 1" "only\n"
+    test_case "Command flag" "-cmd 'echo t' -t 1" "t"
 
     printf -- "----------------------------------------------\n"
     [ $FAILED_TESTS -eq 0 ] && printf "${GREEN}SUCCESS: All tests passed.${NC}\n" || printf "${RED}FAILURE: $FAILED_TESTS tests failed.${NC}\n"
     exit $FAILED_TESTS
+}
+
+# Helper to safely shift arguments
+safe_shift() {
+    if [ $# -lt 2 ]; then
+        echo "Error: Flag $1 requires an argument."
+        exit 1
+    fi
 }
 
 while [ $# -gt 0 ]; do
@@ -157,23 +168,24 @@ while [ $# -gt 0 ]; do
         --verify)       verify_script ;;
         -v|--version)   echo "no v$VERSION"; exit 0 ;;
         -h|--help)      usage ;;
-        -r|--random)    USE_RANDOM=1; RANDOM_ITEMS="$2"; shift ;;
+        -cmd|--command) safe_shift "$1" "$2"; COMMAND_STR="$2"; shift ;;
+        -r|--random)    safe_shift "$1" "$2"; USE_RANDOM=1; RANDOM_ITEMS="$2"; shift ;;
         -c|--count)     USE_COUNT=1 ;;
-        -o|--output)    OUTPUT="$2"; shift ;;
-        -t|--times)     TIMES="$2"; shift ;;
-        -f|--format)    FORMAT="$2"; shift ;;
-        -s|--separator) SEPARATOR="$2"; shift ;;
-        -cols)          COLUMNS="$2"; shift ;;
-        -i|--interval)  INTERVAL="$2"; shift ;;
-        --prefix)       PREFIX_STR="$2"; shift ;;
-        --suffix)       SUFFIX_STR="$2"; shift ;;
-        --width)        WIDTH="$2"; shift ;;
+        -o|--output)    safe_shift "$1" "$2"; OUTPUT="$2"; shift ;;
+        -t|--times)     safe_shift "$1" "$2"; TIMES="$2"; shift ;;
+        -f|--format)    safe_shift "$1" "$2"; FORMAT="$2"; shift ;;
+        -s|--separator) safe_shift "$1" "$2"; SEPARATOR="$2"; shift ;;
+        -cols)          safe_shift "$1" "$2"; COLUMNS="$2"; shift ;;
+        -i|--interval)  safe_shift "$1" "$2"; INTERVAL="$2"; shift ;;
+        --prefix)       safe_shift "$1" "$2"; PREFIX_STR="$2"; shift ;;
+        --suffix)       safe_shift "$1" "$2"; SUFFIX_STR="$2"; shift ;;
+        --width)        safe_shift "$1" "$2"; WIDTH="$2"; shift ;;
         --cycle)        CYCLE=1 ;;
-        --skip)         SKIP="$2"; shift ;;
-        --seq)          SEQ_ACTIVE=1; SEQ_START="${2%%:*}"; SEQ_END="${2#*:}"; shift ;;
-        --step)         STEP="$2"; shift ;;
-        --pad)          PAD="$2"; shift ;;
-        --precision|--prec) PRECISION="$2"; shift ;;
+        --skip)         safe_shift "$1" "$2"; SKIP="$2"; shift ;;
+        --seq)          safe_shift "$1" "$2"; SEQ_ACTIVE=1; SEQ_START="${2%%:*}"; SEQ_END="${2#*:}"; shift ;;
+        --step)         safe_shift "$1" "$2"; STEP="$2"; shift ;;
+        --pad)          safe_shift "$1" "$2"; PAD="$2"; shift ;;
+        --precision|--prec) safe_shift "$1" "$2"; PRECISION="$2"; shift ;;
         *)              TEXT="$1" ;;
     esac
     shift
@@ -210,6 +222,7 @@ awk -v text="$TEXT" -v limit="$TIMES" -v use_rand="$USE_RANDOM" \
     -v pad="$PAD" -v prec="$PRECISION" -v interval="$INTERVAL" \
     -v pre="$PREFIX_STR" -v suf="$SUFFIX_STR" -v width="$WIDTH" \
     -v cycle="$CYCLE" -v skip="$SKIP" -v seq_len="$SEQ_LEN" \
+    -v cmd_str="$COMMAND_STR" \
 'BEGIN {
     if (sep == "\\n") sep = "\n"; if (sep == "\\t") sep = "\t";
     if (use_rand) { srand(); r_n = split(r_list, r_arr, ","); }
@@ -219,16 +232,26 @@ awk -v text="$TEXT" -v limit="$TIMES" -v use_rand="$USE_RANDOM" \
 
     i = 0;
     while (limit == 0 || i < limit) {
-        if (use_rand) val = r_arr[int(rand() * r_n) + 1];
-        else if (s_act) {
+        if (use_rand) {
+            val = r_arr[int(rand() * r_n) + 1];
+        } else if (s_act) {
             idx = i + skip;
             if (cycle && seq_len > 0) idx = idx % seq_len;
             curr_v = s_start + (idx * s_step);
             val = (is_c) ? sprintf("%c", curr_v) : curr_v;
-        } else val = text;
+        } else if (cmd_str != "") {
+             if ((cmd_str | getline line) > 0) {
+                 val = line;
+                 close(cmd_str); # Close to force re-execution next loop
+             } else {
+                 val = ""; # Command failed or empty
+             }
+        } else {
+            val = text;
+        }
 
-        # Numeric rounding fix: add small epsilon to force half-up rounding
-        if (do_num_fmt) {
+        # Numeric rounding fix
+        if (do_num_fmt && cmd_str == "" && !use_rand) {
             num_val = val + 0;
             eps = (num_val >= 0) ? 0.0000000001 : -0.0000000001;
             val = sprintf(f_num, num_val + eps);
