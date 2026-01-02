@@ -75,25 +75,31 @@ $ no --example string --example2 string2 "output"
 
 The table below compares the `no` script with other common Unix utilities that generate repeated or sequential output.  
 
-| Feature | no | yes | jot | seq | shuf |
-|---------|----|-----|-----|-----|------|
-| Infinite repetition | ✅ | ✅ | ❌ | ❌ | ❌ |
-| Repetition count | ✅ | ❌ | ✅ | ✅ | ✅ |
-| Custom string output | ✅ | ✅ | ❌ | ✅ | ✅ |
-| Numeric sequence generation | ✅ | ❌ | ✅ | ✅ | ❌ |
-| Character sequence generation | ✅ | ❌ | ✅ | ✅ | ❌ |
-| Step / increment support | ✅ | ❌ | ✅ | ✅ | ❌ |
-| Zero-padding | ✅ | ❌ | ✅ | ✅ | ❌ |
-| Decimal precision formatting | ✅ | ❌ | ✅ | ✅ | ❌ |
-| Random selection from list | ✅ | ❌ | ❌ | ❌ | ✅ |
-| Execute command repeatedly | ✅ | ❌ | ❌ | ❌ | ❌ |
-| Interval / delay between outputs | ✅ | ❌ | ❌ | ❌ | ❌ |
-| Columns / custom separator | ✅ | ❌ | ✅ | ❌ | ❌ |
-| Supports negative step | ✅ | ❌ | ✅ | ✅ | ❌ |
-| Alphabetical ranges (a..z) | ✅ | ❌ | ✅ | ✅ | ❌ |
-| Can repeat random items N times | ✅ | ❌ | ❌ | ❌ | ✅ |
-| Lightweight | ✅ | ✅ | ✅ | ✅ | ✅ |
-| High-Speed | 🟡 | ✅ | ✅ | ✅ | ✅ |
+| Feature                         | no(v1.5) | yes | jot | seq | shuf |
+| ------------------------------- | -------- | --- | --- | --- | ---- |
+| Infinite repetition             | ✅        | ✅   | ❌   | ❌   | ❌    |
+| Repetition count                | ✅        | ❌   | ✅   | ✅   | ✅    |
+| Custom string output            | ✅        | ✅   | ❌   | ✅   | ✅    |
+| Numeric sequence generation     | ✅        | ❌   | ✅   | ✅   | ❌    |
+| Character sequence generation   | ✅        | ❌   | ✅   | ✅   | ❌    |
+| Step/increment support          | ✅        | ❌   | ✅   | ✅   | ❌    |
+| Zero-padding                    | ✅        | ❌   | ✅   | ✅   | ❌    |
+| Decimal precision formatting    | ✅        | ❌   | ✅   | ✅   | ❌    |
+| Random selection from list      | ✅        | ❌   | ❌   | ❌   | ✅    |
+| Execute command repeatedly      | ✅        | ❌   | ❌   | ❌   | ❌    |
+| Interval/delay between outputs  | ✅        | ❌   | ❌   | ❌   | ❌    |
+| Columns/custom separator        | ✅        | ❌   | ✅   | ❌   | ❌    |
+| Supports negative step          | ✅        | ❌   | ✅   | ✅   | ❌    |
+| Alphabetical ranges(a..z)       | ✅        | ❌   | ✅   | ✅   | ❌    |
+| Can repeat random items N times | ✅        | ❌   | ❌   | ❌   | ✅    |
+| Random Jitter Delay             | ✅        | ❌   | ❌   | ❌   | ❌    |
+| Case(Upper/Lower/Swap)          | ✅        | ❌   | ❌   | ❌   | ❌    |
+| ANSI Color Support              | ✅        | ❌   | ❌   | ❌   | ❌    |
+| CSV/File Header Support         | ✅        | ❌   | ❌   | ❌   | ❌    |
+| Sequence Cycling                | ✅        | ❌   | ❌   | ❌   | ❌    |
+| Skip N Items                    | ✅        | ❌   | ❌   | ❌   | ❌    |
+| Standard--flag=val Parsing      | ✅        | ❌   | ❌   | ❌   | ❌    |
+| Lightweight                     | ✅        | ✅   | ✅   | ✅   | ✅    |
 
 ---
 
