@@ -6,8 +6,6 @@
 
 It behaves similarly to the Unix `yes` command, but:
 
-# Core Logic & Control
-
 ## Default Behavior
 
 * Defaults to printing `n` infinitely if no arguments are provided.
