@@ -172,6 +172,6 @@ sudo rm /usr/local/bin/no
 - [X] Add Version Flag
 - [X] Add Count Flag
 - [X] Fix `--command` and `--seperator` flags
-- [ ] Make parsing of flags better
+- [X] Make parsing better
 
 [![FreeBSD Powered Button](https://www.freebsd.org/gifs/power-button.gif)](https://www.freebsd.org)
