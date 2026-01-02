@@ -192,4 +192,4 @@ sudo rm /usr/local/bin/no
 - [ ] Add flag `--unique`: Ensures every output of no is unique.
 - [ ] Add flag `--trim`: Removes leading/trailing whitespace from output items.
 
-[![FreeBSD Banner](https://www.freebsd.org/gifs/banner1.gif)](https://www.freebsd.org)
+[![FreeBSD Banner](https://www.freebsd.org/gifs/fhp_mini.jpg)](https://www.freebsd.org)
