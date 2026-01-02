@@ -81,7 +81,7 @@ $ no --example string --example2 string2 "output"
 
 The table below compares the `no` script with other common Unix utilities that generate repeated or sequential output.  
 
-| Feature                         | no | yes | jot | seq | shuf |
+| Feature                         | no v1.5 | yes | jot | seq | shuf |
 | ------------------------------- | -------- | --- | --- | --- | ---- |
 | Infinite repetition             | ✅        | ✅   | ❌   | ❌   | ❌    |
 | Repetition count                | ✅        | ❌   | ✅   | ✅   | ✅    |
@@ -190,5 +190,7 @@ sudo rm /usr/local/bin/no
 - [X] Add simple arithmetic operations
 - [X] Add improved ANSI Styling (Bold, underline, hex)
 - [X] Multi-line templates / `--template` support
+- [ ] Update [Use Cases](usecases.md) page to v1.6
+- [ ] Update comparison of `no` to v1.6
 
 [![FreeBSD Powered Button](https://www.freebsd.org/gifs/power-button.gif)](https://www.freebsd.org)
