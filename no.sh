@@ -158,7 +158,7 @@ test_case "Basic Repetition" "-t 2 'hi'" "hi\nhi\n"
     test_case "Case Upper" "-t 1 'hi' --case upper" "HI\n"
     test_case "Case Lower" "-t 1 'HI' --case lower" "hi\n"
     test_case "Header" "-t 1 'row' --header 'ID,Name'" "ID,Name\nrow\n"
-    test_case "Color Red (basic check)" "-t 1 'err' --color red" "\033[31merr\033[0m\n"
+    test_case "Color" "-t 1 'err' --color red" "\033[31merr\033[0m\n"
     printf -- "----------------------------------------------\n"
     [ $FAILED_TESTS -eq 0 ] && printf "${GREEN}SUCCESS: All tests passed.${NC}\n" || printf "${RED}FAILURE: $FAILED_TESTS tests failed.${NC}\n"
     exit $FAILED_TESTS
