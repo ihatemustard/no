@@ -21,6 +21,7 @@ It behaves similarly to the Unix `yes` command, but:
 * `--skip`: Ignores the first N items of a sequence, repetition, or template.
 * `--version, -v`: Displays metadata or internal state information.
 * `--help, -h`: Displays the help manual and usage instructions.
+* `--unique`: Ensures every output of no is unique.
 
 ## Sequences & Math
 
@@ -41,6 +42,7 @@ It behaves similarly to the Unix `yes` command, but:
 * `--prefix`: Adds a specific string before every output item.
 * `--suffix`: Adds a specific string after every output item.
 * `--width`: Right-aligns the output to a fixed character width.
+* `--trim`: Removes leading/trailing whitespace from output items.
 
 ## Layout & Parsing
 
@@ -189,7 +191,7 @@ sudo rm /usr/local/bin/no
 - [X] Multi-line templates / `--template` support
 - [ ] Update [Use Cases](usecases.md) page to latest
 - [ ] Update comparison of `no` to latest
-- [ ] Add flag `--unique`: Ensures every output of no is unique.
-- [ ] Add flag `--trim`: Removes leading/trailing whitespace from output items.
+- [X] Add flag `--unique`: Ensures every output of no is unique.
+- [X] Add flag `--trim`: Removes leading/trailing whitespace from output items.
 
 [![FreeBSD Banner](https://www.freebsd.org/gifs/fhp_mini.jpg)](https://www.freebsd.org)
