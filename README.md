@@ -189,6 +189,7 @@ sudo rm /usr/local/bin/no
 - [X] Multi-line templates / `--template` support
 - [ ] Update [Use Cases](usecases.md) page to v1.6
 - [ ] Update comparison of `no` to v1.6
-- [ ] Add flag `--unique`
+- [ ] Add flag `--unique`: Ensures every output of no is unique.
+- [ ] Add flag `--trim`: Removes leading/trailing whitespace from output items.
 
 [![FreeBSD Powered Button](https://www.freebsd.org/gifs/power-button.gif)](https://www.freebsd.org)
