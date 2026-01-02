@@ -185,10 +185,10 @@ sudo rm /usr/local/bin/no
 - [X] Add Count Flag
 - [X] Fix `--command` and `--seperator` flags
 - [X] Make parsing better
-- [ ] Add `--filter` (filter or modify output)
-- [ ] Support multiple targets with `--output`
-- [ ] Add simple arithmetic operations
-- [ ] Add improved ANSI Styling (Bold, underline, hex)
-- [ ] Multi-line templates / `--template` support
+- [X] Add `--filter` (filter or modify output)
+- [X] Support multiple targets with `--output`
+- [X] Add simple arithmetic operations
+- [X] Add improved ANSI Styling (Bold, underline, hex)
+- [X] Multi-line templates / `--template` support
 
 [![FreeBSD Powered Button](https://www.freebsd.org/gifs/power-button.gif)](https://www.freebsd.org)
